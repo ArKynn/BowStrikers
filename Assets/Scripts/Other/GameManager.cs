@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections;
-using System.Timers;
+using Cinemachine;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
+
 public class GameManager : MonoBehaviour
 {
 
     private Archer[] _players;
-    private Unity.Mathematics.Random _rnd;
+    private Random _rnd;
     
-    [SerializeField] private GameCamera _gameCamera;
-    [SerializeField] private UiManager _uiManager;
+    [Header("Game Variables")]
+    [SerializeField] private GameCamera gameCamera;
+    [SerializeField] private UiManager uiManager;
+
+    [Header("Level Generation Variables")] 
+    [SerializeField] private CinemachineSmoothPath trackedDolly;
+    [SerializeField] private float trackOffsetToSpawn;
+    [SerializeField] private GameObject[] gameBoundaries;
+    [SerializeField] private float boundaryOffsetToSpawn;
+    [SerializeField] private float minSpawnDistance;
+    [SerializeField] private float maxSpawnDistance;
+    private float spawnDistance;
+    private float direction = 1;
 
     private bool _gameActive
     {
@@ -17,7 +30,7 @@ public class GameManager : MonoBehaviour
         set
         {
             gameActive = value;
-            _gameCamera.GameStateChange(_gameActive);
+            gameCamera.GameStateChange(_gameActive);
         }   
     }
     
@@ -29,7 +42,7 @@ public class GameManager : MonoBehaviour
         private set
         {
             activePlayer = value;
-            _gameCamera.UpdateFollowTarget(_activePlayer.gameObject);
+            gameCamera.UpdateFollowTarget(_activePlayer.gameObject);
             activePlayerIndex = Array.IndexOf(_players, activePlayer.GetComponent<Archer>());
         }
     }
@@ -42,13 +55,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _players = FindObjectsOfType<Archer>();
-        _rnd = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(0, int.MaxValue));
+        _rnd = new Random((uint)UnityEngine.Random.Range(0, int.MaxValue));
     }
 
     private void Update()
     {
         if (!gameActive || gameOver) return;
-        if(CheckActivePlayerShot()) _gameCamera.UpdateFollowTarget(_activePlayer.GetComponent<Archer>().activeShot.gameObject);
+        if(CheckActivePlayerShot()) gameCamera.UpdateFollowTarget(_activePlayer.GetComponent<Archer>().activeShot.gameObject);
     }
 
     public void StartGame()
@@ -85,13 +98,17 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
-        if (firstTurn) _activePlayer = GetStartingPlayer();
+        if (firstTurn)
+        {
+            RandomizePlayerPositions();
+            _activePlayer = GetStartingPlayer();
+        }
         
         _activePlayer = _players[1 - activePlayerIndex].gameObject;
         _activePlayer.gameObject.GetComponentInParent<Archer>().GetTurn();
         
-        _uiManager.ResetTurnNumber(1 - activePlayerIndex);
-        _uiManager.NextTurn(activePlayerIndex);
+        uiManager.ResetTurnNumber(1 - activePlayerIndex);
+        uiManager.NextTurn(activePlayerIndex);
     }
 
     private void StartGameOver()
@@ -109,8 +126,8 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        _gameCamera.UpdateFollowTarget(_activePlayer.gameObject);
-        _uiManager.GameOver(1 - activePlayerIndex + 1);
+        gameCamera.UpdateFollowTarget(_activePlayer.gameObject);
+        uiManager.GameOver(1 - activePlayerIndex + 1);
     }
 
     public void ReturntoMainMenu()
@@ -127,5 +144,24 @@ public class GameManager : MonoBehaviour
         }
 
         if(activePlayer != null) activePlayer.GetComponent<Archer>().ResetArrow();
+    }
+
+    private void RandomizePlayerPositions()
+    {
+        for (int i = 0; i < _players.Length; i++)
+        {
+            spawnDistance = _rnd.NextFloat(minSpawnDistance, maxSpawnDistance) * direction;
+            
+            var pos = _players[i].transform.position;
+            _players[i].transform.position = new Vector3(spawnDistance, pos.y, pos.z);
+            
+            pos = trackedDolly.m_Waypoints[i].position;
+            trackedDolly.m_Waypoints[i].position = new Vector3(spawnDistance + trackOffsetToSpawn * direction, pos.y, pos.z);
+            
+            pos = gameBoundaries[i].transform.position;
+            gameBoundaries[i].transform.position = new Vector3(spawnDistance + boundaryOffsetToSpawn * direction, pos.y, pos.z);
+            
+            direction = -direction;
+        }
     }
 }
