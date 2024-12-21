@@ -135,7 +135,7 @@ public class Archer : MonoBehaviour
         for (int i = 0; i < linePointResolution; i++)
         {
             linePositions[i] = o + (Vector3)_shotVector * (f * 0.5f);
-            linePositions[i].y += 4f*Physics.gravity.y*f*f;
+            if(!_isChargingBow) linePositions[i].y += 4f*Physics.gravity.y*f*f;
             
             if(!isLookingRight) linePositions[i].x = -linePositions[i].x;
             f+= linePointDistance;
