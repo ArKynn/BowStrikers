@@ -43,9 +43,10 @@ public class PlayerControlsUI : MonoBehaviour
         animator.SetTrigger("Show");
     }
 
-    public void Next()
+    public void Next(bool player2Playing)
     {
         CurrentTextIndex = 1 - CurrentTextIndex;
+        if(player2Playing) textField.text = textField.text.Replace("<sprite=0>", "<sprite=1>");
     }
 
     public void GameStart()

@@ -236,7 +236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2191\u2193 Ajustar | 0 Confirmar"
+  m_text: <sprite=0>Ajustar | <sprite=2> Confirmar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78568f219338d784182d5ef226605002, type: 2}
   m_sharedMaterial: {fileID: 4584972722958812882, guid: 78568f219338d784182d5ef226605002, type: 2}
@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlTexts:
-  - "\u2191\u2193 Ajustar | 0 Confirmar"
-  - "\u2191\u2193 Ajustar | 0 Disparar"
+  - <sprite=0> Ajustar | <sprite=2> Confirmar
+  - <sprite=0> Ajustar | <sprite=2> Disparar
 --- !u!95 &878004623474308103
 Animator:
   serializedVersion: 5

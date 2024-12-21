@@ -14,7 +14,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject MainMenuFight;
     
     private TMP_Text _turnText;
-    private PlayerControlsUI _controlsController;   
+    private PlayerControlsUI _controlsController;
+    private int activePlayerIndex;
 
     void Start()
     {
@@ -49,11 +50,12 @@ public class UiManager : MonoBehaviour
     
     public void NextTurn(int nextPlayerIndex)
     {
+        activePlayerIndex = nextPlayerIndex;
         turnUI.GetComponent<Animator>().SetTrigger("NewTurn");
         _turnText.text = _turnText.text.Replace("%", (1 - nextPlayerIndex + 1).ToString());
         
         _controlsController.EnableControls();
-        _controlsController.Next();
+        _controlsController.Next(activePlayerIndex == 1);
     }
 
     public void ResetTurnNumber(int currentPlayerIndex)
@@ -68,7 +70,7 @@ public class UiManager : MonoBehaviour
 
     public void NextControls()
     {
-        _controlsController.Next();
+        _controlsController.Next(activePlayerIndex == 1);
     }
 
     public void GameOver(int winningPlayer)

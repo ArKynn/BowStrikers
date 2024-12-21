@@ -152,8 +152,8 @@ public class GameManager : MonoBehaviour
         {
             spawnDistance = _rnd.NextFloat(minSpawnDistance, maxSpawnDistance) * direction;
             
-            var pos = _players[i].transform.position;
-            _players[i].transform.position = new Vector3(spawnDistance, pos.y, pos.z);
+            var pos = _players[1-i].transform.position;
+            _players[1-i].transform.position = new Vector3(spawnDistance, pos.y, pos.z);
             
             pos = trackedDolly.m_Waypoints[i].position;
             trackedDolly.m_Waypoints[i].position = new Vector3(spawnDistance + trackOffsetToSpawn * direction, pos.y, pos.z);
