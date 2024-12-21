@@ -21,7 +21,6 @@ public class UiManager : MonoBehaviour
     {
         _turnText = turnUI.GetComponent<TMP_Text>();
         _controlsController = controlsUI.GetComponent<PlayerControlsUI>();
-        
     }
 
     public void StartGameButton()
