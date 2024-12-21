@@ -11,6 +11,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject controlsUI;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private TMP_Text _gameOverText;
+    [SerializeField] private GameObject MainMenuFight;
     
     private TMP_Text _turnText;
     private PlayerControlsUI _controlsController;   
@@ -19,12 +20,14 @@ public class UiManager : MonoBehaviour
     {
         _turnText = turnUI.GetComponent<TMP_Text>();
         _controlsController = controlsUI.GetComponent<PlayerControlsUI>();
+        
     }
 
     public void StartGameButton()
     {
         splashScreen.gameObject.SetActive(false);
         _controlsController.GameStart();
+        MainMenuFight.SetActive(false);
     }
 
     public void ExitGameButton()
@@ -84,5 +87,6 @@ public class UiManager : MonoBehaviour
         gameOverUI.gameObject.SetActive(false);
         splashScreen.gameObject.SetActive(true);
         mainMenu.gameObject.SetActive(true);
+        MainMenuFight.SetActive(false);
     }
 }

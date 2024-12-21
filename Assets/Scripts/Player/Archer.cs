@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Archer : MonoBehaviour
@@ -6,15 +7,16 @@ public class Archer : MonoBehaviour
     private bool _isChargingBow;
     public bool _shotFired {get; private set;}
     
-    private float _shotAngle;
-    private float _shotStrength;
-    private Vector2 _shotVector;
-    
-    [SerializeField] private GameObject shotPrefab;
+    [Header("UI Variables")]
     [SerializeField] private UiManager uiManager;
-    [SerializeField] private Transform arrowSpawnOrigin;
+    [SerializeField] private int linePointResolution;
+    [SerializeField] private float linePointDistance;
+    private Vector3[] linePositions;
     private LineRenderer _lineRenderer;
 
+    [Header("Shot Variables")]
+    [SerializeField] private GameObject shotPrefab;
+    [SerializeField] private Transform arrowSpawnOrigin;
     [SerializeField] private float shotStrengthIncrease;
     [SerializeField] private float shotAngleIncrease;
     [SerializeField] private float startingAngle;
@@ -23,22 +25,30 @@ public class Archer : MonoBehaviour
     [SerializeField] private float shotStrengthMax;
     [SerializeField] private float shotStrengthMin;
     [SerializeField] private bool isLookingRight;
-
-    private float _verticalInput;
-    private bool _buttonInput;
     public ShotProjectile activeShot {get; private set;}
-    private Animator _animator;
+    private float _shotAngle;
+    private float _shotStrength;
+    private Vector2 _shotDirection;
+    private Vector2 _shotVector;
+    
+    [Header("Sound Variables")]
     [SerializeField] private AudioSource _bowDrawAudioSource;
     [SerializeField] private AudioSource _bowShotAudioSource;
     [SerializeField] private AudioSource _bodyFallAudioSource;
 
+    [Header("Input Variables")]
     [SerializeField] private string inputAxis;
+    private float _verticalInput;
+    private bool _buttonInput;
     
+    private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _animator = GetComponent<Animator>();
+        linePositions = new Vector3[linePointResolution];
+        _lineRenderer.positionCount = linePointResolution;
     }
 
     // Update is called once per frame
@@ -114,19 +124,21 @@ public class Archer : MonoBehaviour
     
     private void GetShotVector()
     {
-        _shotVector = new Vector2(Mathf.Cos(_shotAngle * Mathf.Deg2Rad), Mathf.Sin(_shotAngle * Mathf.Deg2Rad)).normalized * _shotStrength;
+        _shotDirection = new Vector2(Mathf.Cos(_shotAngle * Mathf.Deg2Rad), Mathf.Sin(_shotAngle * Mathf.Deg2Rad)).normalized;
+        _shotVector = _shotDirection * _shotStrength;
     }
 
     private void UpdateLineRenderer()
     {
-        Vector3[] linePositions = new Vector3[2];
-
-        linePositions[0] = arrowSpawnOrigin.position;
-        linePositions[1] = arrowSpawnOrigin.position + (new Vector3(_shotVector.x, _shotVector.y, 0) * Mathf.Max(0.02f, _shotStrength * .00005f));
-
-        if(!isLookingRight)
+        Vector3 o = arrowSpawnOrigin.localPosition;
+        float f = linePointDistance;
+        for (int i = 0; i < linePointResolution; i++)
         {
-            linePositions[1].x = -linePositions[1].x;
+            linePositions[i] = o + (Vector3)_shotVector * (f * 0.5f);
+            linePositions[i].y += 4f*Physics.gravity.y*f*f;
+            
+            if(!isLookingRight) linePositions[i].x = -linePositions[i].x;
+            f+= linePointDistance;
         }
 
         _lineRenderer.SetPositions(linePositions);
