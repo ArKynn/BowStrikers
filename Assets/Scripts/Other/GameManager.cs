@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
     {
         _gameActive = true;
         gameOver = false;
+        foreach (Archer archer in _players) archer.TurnStart();
+        
         StartCoroutine(NextTurn(true));
         CleanArrows();
     }
@@ -96,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NextTurn(bool firstTurn)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
 
         if (firstTurn)
         {

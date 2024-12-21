@@ -73,12 +73,18 @@ public class Archer : MonoBehaviour
 
     public void GetTurn()
     {
-        _animator.SetTrigger("TurnStart");
         _canShoot = true;
         _isChargingBow = true;
         activeShot = null;
         _shotAngle = startingAngle;
         _shotStrength = shotStrengthMin;
+        _lineRenderer.enabled = true;
+        TurnStart();
+    }
+    
+    public void TurnStart()
+    {
+        _animator.SetTrigger("TurnStart");
     }
 
     private void GetInputs()
@@ -115,6 +121,7 @@ public class Archer : MonoBehaviour
             Shoot();
             _bowShotAudioSource.Play();
             uiManager.DisableControls();
+            _lineRenderer.enabled = false;
         }
     }
 
@@ -124,10 +131,6 @@ public class Archer : MonoBehaviour
         activeShot = Instantiate(shotPrefab, arrowSpawnOrigin.position, Quaternion.identity).GetComponent<ShotProjectile>();
         activeShot.ApplyShotForce(_shotVector);
         activeShot.GetSourceArcher(gameObject);
-
-        _shotAngle = 0f;
-        _shotStrength = 0f;
-
     }
     
     private void GetShotVector()
