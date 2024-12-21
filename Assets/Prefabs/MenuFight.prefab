@@ -412,7 +412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2898870552165479582, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.9
       objectReference: {fileID: 0}
     - target: {fileID: 2898870552165479582, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -446,10 +446,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5750594616388600867, guid: 841973762ce5d5d47977645015c652c2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 130349437, guid: 065061d58dddb834eb237759d04e91db, type: 3}
     - target: {fileID: 8594588629846060847, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_Name
       value: Archer
@@ -581,7 +577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2898870552165479582, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.9000006
       objectReference: {fileID: 0}
     - target: {fileID: 2898870552165479582, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -614,22 +610,6 @@ PrefabInstance:
     - target: {fileID: 2898870552165479582, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5750594616388600867, guid: 841973762ce5d5d47977645015c652c2, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -1741498730, guid: 065061d58dddb834eb237759d04e91db, type: 3}
-    - target: {fileID: 5750594616388600867, guid: 841973762ce5d5d47977645015c652c2, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5750594616388600867, guid: 841973762ce5d5d47977645015c652c2, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5750594616388600867, guid: 841973762ce5d5d47977645015c652c2, type: 3}
-      propertyPath: m_Color.r
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8594588629846060847, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_Name

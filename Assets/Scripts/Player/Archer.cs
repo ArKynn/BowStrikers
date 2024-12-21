@@ -41,12 +41,17 @@ public class Archer : MonoBehaviour
     private float _verticalInput;
     private bool _buttonInput;
     
+    [Header("Animation Variables")]
+    [SerializeField] private GameObject handsPivot;
+    private Animator _handsAnimator;
     private Animator _animator;
+    
     // Start is called before the first frame update
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _animator = GetComponent<Animator>();
+        _handsAnimator = handsPivot.GetComponentInChildren<Animator>();
         linePositions = new Vector3[linePointResolution];
         _lineRenderer.positionCount = linePointResolution;
     }
@@ -62,6 +67,7 @@ public class Archer : MonoBehaviour
         else ChargeShot();
 
         GetShotVector();
+        RotateHands();
         UpdateLineRenderer();
     }
 
@@ -91,6 +97,7 @@ public class Archer : MonoBehaviour
         if (_buttonInput)
         {
             _animator.SetTrigger("DrawBow");
+            _handsAnimator.SetTrigger("Draw");
             _bowDrawAudioSource.Play();
             _isChargingBow = !_isChargingBow;
             uiManager.NextControls();
@@ -104,6 +111,7 @@ public class Archer : MonoBehaviour
         if (_buttonInput)
         {
             _animator.SetTrigger("Shoot");
+            _handsAnimator.SetTrigger("Shoot");
             Shoot();
             _bowShotAudioSource.Play();
             uiManager.DisableControls();
@@ -126,6 +134,11 @@ public class Archer : MonoBehaviour
     {
         _shotDirection = new Vector2(Mathf.Cos(_shotAngle * Mathf.Deg2Rad), Mathf.Sin(_shotAngle * Mathf.Deg2Rad)).normalized;
         _shotVector = _shotDirection * _shotStrength;
+    }
+
+    private void RotateHands()
+    {
+        handsPivot.transform.eulerAngles = new Vector3(0, 0, _shotAngle);
     }
 
     private void UpdateLineRenderer()
