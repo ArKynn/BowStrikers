@@ -11,8 +11,6 @@ public class UIController : MonoBehaviour
     private List<Button> activeButtons;
     private int selectedButtonIndex;
     private Button selectedButton;
-    private bool switchSelectedButton;
-    private bool pressSelectedButton;
     private int interval = 1;
 
     private void Start()
@@ -22,14 +20,6 @@ public class UIController : MonoBehaviour
         GetEnabledButtons();
     }
     
-    private void Update()
-    {
-        if (Time.time % interval == 0)
-        {
-            if(activeButtons.Count <= 0) return;
-            if(GetInput()) ControlUI();
-        }
-    }
 
     public void GetEnabledButtons()
     {
@@ -43,18 +33,6 @@ public class UIController : MonoBehaviour
         }
         
         ToggleSelectedButton(0);
-    }
-
-    private bool GetInput()
-    {
-        pressSelectedButton = Input.GetKeyDown(KeyCode.Return);
-        return switchSelectedButton || pressSelectedButton;
-    }
-
-    private void ControlUI()
-    {
-        if(switchSelectedButton) ToggleSelectedButton();
-        if(pressSelectedButton) selectedButton.onClick.Invoke();
     }
 
     private void ToggleSelectedButton(int selectedIndex = -1)
