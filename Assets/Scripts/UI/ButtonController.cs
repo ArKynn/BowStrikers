@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     private Button selectedButton;
     private bool switchSelectedButton;
     private bool pressSelectedButton;
+    private int interval = 1;
 
     private void Start()
     {
@@ -23,8 +24,11 @@ public class UIController : MonoBehaviour
     
     private void Update()
     {
-        if(activeButtons.Count <= 0) return;
-        if(GetInput()) ControlUI();
+        if (Time.time % interval == 0)
+        {
+            if(activeButtons.Count <= 0) return;
+            if(GetInput()) ControlUI();
+        }
     }
 
     public void GetEnabledButtons()
@@ -32,7 +36,7 @@ public class UIController : MonoBehaviour
         activeButtons.Clear();
         foreach (var button in buttons)
         {
-            if (button.transform.parent.gameObject.activeSelf)
+            if (button.gameObject.activeInHierarchy)
             {
                 activeButtons.Add(button);
             }
@@ -43,7 +47,6 @@ public class UIController : MonoBehaviour
 
     private bool GetInput()
     {
-        switchSelectedButton = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow);
         pressSelectedButton = Input.GetKeyDown(KeyCode.Return);
         return switchSelectedButton || pressSelectedButton;
     }
@@ -53,10 +56,10 @@ public class UIController : MonoBehaviour
         if(switchSelectedButton) ToggleSelectedButton();
         if(pressSelectedButton) selectedButton.onClick.Invoke();
     }
-    
+
     private void ToggleSelectedButton(int selectedIndex = -1)
     {
-        selectedButtonIndex = selectedIndex is < 0 or > 1  ? 1 - selectedButtonIndex : selectedIndex;
+        selectedButtonIndex = selectedIndex is < 0 or > 1 ? 1 - selectedButtonIndex : selectedIndex;
         selectedButton = activeButtons[selectedButtonIndex];
         eventSystem.SetSelectedGameObject(selectedButton.gameObject);
     }
