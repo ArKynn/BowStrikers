@@ -4,7 +4,6 @@ public class Archer : MonoBehaviour
 {
     private bool _canShoot;
     private bool _isChargingBow;
-    public bool _shotFired {get; private set;}
     
     [Header("UI Variables")]
     [SerializeField] private UiManager uiManager;
@@ -89,7 +88,7 @@ public class Archer : MonoBehaviour
     private void GetInputs()
     {
         _verticalInput = Input.GetAxis(inputAxis);
-        _buttonInput = Input.GetButtonUp("Fire1");
+        _buttonInput = Input.GetButtonDown("Fire1");
     }
 
     private void AimShot()
