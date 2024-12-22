@@ -13,12 +13,14 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text _gameOverText;
     [SerializeField] private GameObject MainMenuFight;
     
+    private UIController uiController;
     private TMP_Text _turnText;
     private PlayerControlsUI _controlsController;
     private int activePlayerIndex;
 
     void Start()
     {
+        uiController = GetComponent<UIController>();
         _turnText = turnUI.GetComponent<TMP_Text>();
         _controlsController = controlsUI.GetComponent<PlayerControlsUI>();
     }
@@ -28,12 +30,14 @@ public class UiManager : MonoBehaviour
         splashScreen.gameObject.SetActive(false);
         _controlsController.GameStart();
         MainMenuFight.SetActive(false);
+        uiController.DisableControls();
     }
 
     public void ExitGameButton()
     {
         confirmMenu.gameObject.SetActive(true);
         mainMenu.gameObject.SetActive(false);
+        uiController.GetEnabledButtons();
     }
 
     public void ConfirmButton()
@@ -45,6 +49,7 @@ public class UiManager : MonoBehaviour
     {
         confirmMenu.gameObject.SetActive(false);
         mainMenu.gameObject.SetActive(true);
+        uiController.GetEnabledButtons();
     }
     
     public void NextTurn(int nextPlayerIndex)
@@ -76,11 +81,13 @@ public class UiManager : MonoBehaviour
     {
         gameOverUI.SetActive(true);
         _gameOverText.text = _gameOverText.text.Replace("%", winningPlayer.ToString());
+        uiController.GetEnabledButtons();
     }
 
     public void RestartGameButton()
     {
         gameOverUI.gameObject.SetActive(false);
+        uiController.DisableControls();
     }
 
     public void ReturnToMenuButton()
@@ -89,5 +96,6 @@ public class UiManager : MonoBehaviour
         splashScreen.gameObject.SetActive(true);
         mainMenu.gameObject.SetActive(true);
         MainMenuFight.SetActive(false);
+        uiController.GetEnabledButtons();
     }
 }
