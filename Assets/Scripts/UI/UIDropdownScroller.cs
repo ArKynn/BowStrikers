@@ -13,12 +13,15 @@ public class UIDropdownScroller : MonoBehaviour, ISelectHandler
     {
         scrollRect = GetComponentInParent<ScrollRect>(true);
         
-        int childCount = scrollRect.content.transform.childCount + 1;
+        int childCount = scrollRect.content.transform.childCount;
         int childIndex = transform.GetSiblingIndex();
         
-        childIndex = childIndex < ((float) childCount / 2) ? childIndex + 1 : childIndex;
-        
-        scrollPosition  = 1 - ((float) childIndex / childCount);
+        //childIndex = childIndex < ((float) childCount / 2) ? childIndex + 1 : childIndex;
+        if (childIndex == 1)
+        {
+            scrollPosition = 1; return;
+        }
+        scrollPosition  = 1 - ((float)childIndex) / (childCount-1);
     }
 
     private void OnEnable()
