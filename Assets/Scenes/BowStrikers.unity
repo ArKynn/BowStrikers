@@ -131,38 +131,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 465846724469260056, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3155142349925429246, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370639197199860343, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 1035359591266664970, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
+      propertyPath: enabledToggleSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 74cc1eadfca6b434ba3393cd2e984081, type: 3}
+    - target: {fileID: 1035359591266664970, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
+      propertyPath: disabledToggleSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 043bbc120d30d5a4bbd960cb75bd1069, type: 3}
     - target: {fileID: 7828160211993784543, guid: 73bdd2b126313d84f966731198cd8f60, type: 3}
       propertyPath: m_LocalPosition.x
       value: -80.88507

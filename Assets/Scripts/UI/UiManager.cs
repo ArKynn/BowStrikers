@@ -70,7 +70,8 @@ public class UiManager : MonoBehaviour
         _turnText = turnUI.GetComponent<TMP_Text>();
         _controlsController = controlsUI.GetComponent<PlayerControlsUI>();
         UpdateResolutionsDropdown();
-        ToggleShowLastShot();
+        FullScreen = FullScreen;
+        if(PlayerPrefs.GetInt("ShowLastShot", 0) == 1) showLastShotIcon.sprite = enabledToggleSprite;
     }
 
     private void UpdateResolutionsDropdown()

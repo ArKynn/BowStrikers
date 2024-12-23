@@ -10308,7 +10308,6 @@ MonoBehaviour:
   creditsMenu: {fileID: 6758196100199931871}
   confirmMenu: {fileID: 6973490926666198614}
   splashScreen: {fileID: 4592278708446794607}
-  dropdownScrollRect: {fileID: 0}
   resolutionDropdown: {fileID: 245176745557666342}
   fullScreenIcon: {fileID: 6196085717715163760}
   showLastShotIcon: {fileID: 4867436823330485352}
@@ -14186,7 +14185,7 @@ PrefabInstance:
       objectReference: {fileID: 1035359591266664970}
     - target: {fileID: 8594588629846060847, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_Name
-      value: Archer B
+      value: Archer A
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14427,7 +14426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8594588629846060847, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_Name
-      value: Archer A
+      value: Archer B
       objectReference: {fileID: 0}
     - target: {fileID: 8840633679655356363, guid: 841973762ce5d5d47977645015c652c2, type: 3}
       propertyPath: m_Camera

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _players = FindObjectsOfType<Archer>();
+        _players = _players.OrderBy(x => x.name).ToArray();
         _rnd = new Random((uint)UnityEngine.Random.Range(0, int.MaxValue));
         if(PlayerPrefs.GetInt("ShowLastShot") == 1)
         {
