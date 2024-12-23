@@ -16,7 +16,6 @@ public class UIDropdownScroller : MonoBehaviour, ISelectHandler
         int childCount = scrollRect.content.transform.childCount;
         int childIndex = transform.GetSiblingIndex();
         
-        //childIndex = childIndex < ((float) childCount / 2) ? childIndex + 1 : childIndex;
         if (childIndex == 1)
         {
             scrollPosition = 1; return;
