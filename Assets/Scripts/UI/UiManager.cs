@@ -7,10 +7,10 @@ public class UiManager : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject creditsMenu;
     [SerializeField] private GameObject confirmMenu;
     [SerializeField] private GameObject splashScreen;
 
-    [SerializeField] private ScrollRect dropdownScrollRect;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     [SerializeField] private Image fullScreenIcon;
     [SerializeField] private Image showLastShotIcon;
@@ -167,6 +167,20 @@ public class UiManager : MonoBehaviour
     public void CloseOptionsMenu()
     {
         settingsMenu.gameObject.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
+        uiController.GetEnabledButtons();
+    }
+
+    public void OpenCredits()
+    {
+        creditsMenu.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
+        uiController.GetEnabledButtons();
+    }
+
+    public void CloseCredits()
+    {
+        creditsMenu.gameObject.SetActive(false);
         mainMenu.gameObject.SetActive(true);
         uiController.GetEnabledButtons();
     }
