@@ -39,6 +39,8 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    
+
     private int[] Resolution
     {
         get => new int[] { PlayerPrefs.GetInt("ResolutionWidth"), PlayerPrefs.GetInt("ResolutionHeight") };

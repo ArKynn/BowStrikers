@@ -52,15 +52,25 @@ public class GameManager : MonoBehaviour
     private int activePlayerIndex;
     
     private bool gameOver;
+    
+    private int ShowLastShot
+    {
+        get => PlayerPrefs.GetInt("ShowLastShot", 0);
+        set
+        {
+            PlayerPrefs.SetInt("ShowLastShot", value);
+            uiManager.ToggleShowLastShot();
+        }
+    }
 
     private void Start()
     {
         _players = FindObjectsOfType<Archer>();
         _players = _players.OrderBy(x => x.name).ToArray();
         _rnd = new Random((uint)UnityEngine.Random.Range(0, int.MaxValue));
+        ShowLastShot = ShowLastShot;
         if(PlayerPrefs.GetInt("ShowLastShot") == 1)
         {
-            uiManager.ToggleShowLastShot();
             foreach (var player in _players)
             {
                 player.ToggleShowLastShot();
@@ -179,7 +189,7 @@ public class GameManager : MonoBehaviour
 
     public void ToggleShowLastShot()
     {
-        PlayerPrefs.SetInt("ShowLastShot", 1 - PlayerPrefs.GetInt("ShowLastShot", 0));
+        ShowLastShot = 1 - ShowLastShot;
         foreach (var player in _players)
         {
             player.ToggleShowLastShot();
