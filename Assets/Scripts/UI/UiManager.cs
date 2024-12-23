@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,17 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject confirmMenu;
     [SerializeField] private GameObject splashScreen;
 
+    [SerializeField] private ScrollRect dropdownScrollRect;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private Image fullScreenIcon;
+    [SerializeField] private Image showLastShotIcon;
+    [SerializeField] private Sprite disabledToggleSprite;
+    [SerializeField] private Sprite enabledToggleSprite;
     [SerializeField] private GameObject turnUI;
     [SerializeField] private GameObject controlsUI;
     [SerializeField] private GameObject gameOverUI;
-    [SerializeField] private TMP_Text _gameOverText;
-    [SerializeField] private GameObject MainMenuFight;
+    [SerializeField] private TMP_Text gameOverText;
+    [SerializeField] private GameObject mainMenuFight;
     
     private Resolution[] resolutions;
     private UIController uiController;
@@ -29,6 +35,32 @@ public class UiManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("FullScreen", value);
             Screen.fullScreen = FullScreen == 1;
+            fullScreenIcon.sprite = FullScreen == 1 ? enabledToggleSprite : disabledToggleSprite;
+        }
+    }
+
+    private int[] Resolution
+    {
+        get => new int[] { PlayerPrefs.GetInt("ResolutionWidth"), PlayerPrefs.GetInt("ResolutionHeight") };
+        set
+        {
+            PlayerPrefs.SetInt("ResolutionWidth", value[0]);
+            PlayerPrefs.SetInt("ResolutionHeight", value[1]);
+            Screen.SetResolution(value[0], value[1], FullScreen == 1);
+        }
+    }
+
+    private void Awake()
+    {
+        Screen.fullScreen = FullScreen == 1;
+        resolutions = Screen.resolutions;
+        if (Resolution == new int[] { 0, 0 })
+        {
+            Screen.SetResolution(resolutions[0].width, resolutions[0].height, FullScreen == 1);
+        }
+        else
+        {
+            Screen.SetResolution(Resolution[0], Resolution[1], FullScreen == 1);
         }
     }
 
@@ -38,15 +70,16 @@ public class UiManager : MonoBehaviour
         _turnText = turnUI.GetComponent<TMP_Text>();
         _controlsController = controlsUI.GetComponent<PlayerControlsUI>();
         UpdateResolutionsDropdown();
+        ToggleShowLastShot();
     }
 
     private void UpdateResolutionsDropdown()
     {
         resolutionDropdown.ClearOptions();
-        resolutions = Screen.resolutions;
         foreach (Resolution resolution in resolutions)
         {
             resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolution.ToString()));
+            if(resolution.ToString() == Screen.currentResolution.ToString()) resolutionDropdown.value = Array.IndexOf(resolutions, resolution);
         }
     }
 
@@ -54,7 +87,7 @@ public class UiManager : MonoBehaviour
     {
         splashScreen.gameObject.SetActive(false);
         _controlsController.GameStart();
-        MainMenuFight.SetActive(false);
+        mainMenuFight.SetActive(false);
         uiController.DisableControls();
     }
 
@@ -105,7 +138,7 @@ public class UiManager : MonoBehaviour
     public void GameOver(int winningPlayer)
     {
         gameOverUI.SetActive(true);
-        _gameOverText.text = _gameOverText.text.Replace("%", winningPlayer.ToString());
+        gameOverText.text = gameOverText.text.Replace("%", winningPlayer.ToString());
         uiController.GetEnabledButtons();
     }
 
@@ -120,7 +153,7 @@ public class UiManager : MonoBehaviour
         gameOverUI.gameObject.SetActive(false);
         splashScreen.gameObject.SetActive(true);
         mainMenu.gameObject.SetActive(true);
-        MainMenuFight.SetActive(false);
+        mainMenuFight.SetActive(false);
         uiController.GetEnabledButtons();
     }
 
@@ -145,6 +178,13 @@ public class UiManager : MonoBehaviour
 
     public void SetResolution()
     {
-        print(resolutionDropdown.options[resolutionDropdown.value].text);
+        var selectedResolutionWidth = resolutions[resolutionDropdown.value].width;
+        var selectedResolutionHeight = resolutions[resolutionDropdown.value].height;
+        Resolution = new int[]{selectedResolutionWidth, selectedResolutionHeight};
+    }
+
+    public void ToggleShowLastShot()
+    {
+        showLastShotIcon.sprite = PlayerPrefs.GetInt("ShowLastShot", 1) == 1 ? enabledToggleSprite : disabledToggleSprite;
     }
 }

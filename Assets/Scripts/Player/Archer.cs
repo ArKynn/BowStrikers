@@ -11,6 +11,8 @@ public class Archer : MonoBehaviour
     [SerializeField] private float linePointDistance;
     private Vector3[] linePositions;
     private LineRenderer _lineRenderer;
+    [SerializeField] private LineRenderer lastShotLineRenderer;
+    private bool enableLastShotDisplay;
 
     [Header("Shot Variables")]
     [SerializeField] private GameObject shotPrefab;
@@ -52,6 +54,8 @@ public class Archer : MonoBehaviour
         _handsAnimator = handsPivot.GetComponentInChildren<Animator>();
         linePositions = new Vector3[linePointResolution];
         _lineRenderer.positionCount = linePointResolution;
+        lastShotLineRenderer.positionCount = linePointResolution;
+        ToggleShowLastShot();
     }
 
     // Update is called once per frame
@@ -77,6 +81,7 @@ public class Archer : MonoBehaviour
         _shotAngle = startingAngle;
         _shotStrength = shotStrengthMin;
         _lineRenderer.enabled = true;
+        if(enableLastShotDisplay) lastShotLineRenderer.enabled = true;
         TurnStart();
     }
     
@@ -119,7 +124,9 @@ public class Archer : MonoBehaviour
             Shoot();
             _bowShotAudioSource.Play();
             uiManager.DisableControls();
+            lastShotLineRenderer.SetPositions(linePositions);
             _lineRenderer.enabled = false;
+            if(enableLastShotDisplay) lastShotLineRenderer.enabled = false;
         }
     }
 
@@ -168,5 +175,10 @@ public class Archer : MonoBehaviour
     public void ResetArrow()
     {
         activeShot = null;
+    }
+
+    public void ToggleShowLastShot()
+    {
+        enableLastShotDisplay = PlayerPrefs.GetInt("ShowLastShot", 0) == 1;
     }
 }

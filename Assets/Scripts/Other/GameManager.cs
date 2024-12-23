@@ -56,6 +56,14 @@ public class GameManager : MonoBehaviour
     {
         _players = FindObjectsOfType<Archer>();
         _rnd = new Random((uint)UnityEngine.Random.Range(0, int.MaxValue));
+        if(PlayerPrefs.GetInt("ShowLastShot") == 1)
+        {
+            uiManager.ToggleShowLastShot();
+            foreach (var player in _players)
+            {
+                player.ToggleShowLastShot();
+            }
+        }
     }
 
     private void Update()
@@ -164,6 +172,15 @@ public class GameManager : MonoBehaviour
             gameBoundaries[i].transform.position = new Vector3(spawnDistance + boundaryOffsetToSpawn * direction, pos.y, pos.z);
             
             direction = -direction;
+        }
+    }
+
+    public void ToggleShowLastShot()
+    {
+        PlayerPrefs.SetInt("ShowLastShot", 1 - PlayerPrefs.GetInt("ShowLastShot", 0));
+        foreach (var player in _players)
+        {
+            player.ToggleShowLastShot();
         }
     }
 }
