@@ -61,7 +61,7 @@ public class ShotProjectile : MonoBehaviour
     {
         _rb.velocity = Vector2.zero;
         _rb.isKinematic = true;
-        _col.isTrigger = true;
+        _col.enabled = false;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _flying = false;
     }
