@@ -11,7 +11,6 @@ public class UIController : MonoBehaviour
     private List<Button> activeButtons;
     private int selectedButtonIndex;
     private Button selectedButton;
-    private int interval = 1;
 
     private void Start()
     {
